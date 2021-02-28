@@ -1,0 +1,26 @@
+language: java
+sudo: false
+jdk:
+- openjdk15
+addons:
+  postgresql: '10'
+services:
+- postgresql
+before_install:
+- psql -c 'create database forum;' -U postgres
+branches:
+  only:
+  - master
+install: true
+script: mvn clean package -DskipTests=true
+after_success:
+- bash <(curl -s https://codecov.io/bash)
+notifications:
+  email:
+    recipients: yegeraskin13@gmail.com
+    on_success: never
+    on_failure: always
+
+env:
+  global:
+  - CODECOV_TOKEN="a6e12345-666f-43a0-8831-0599a9e6535b"
